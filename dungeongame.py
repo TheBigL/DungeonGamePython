@@ -23,24 +23,30 @@ def setDifficulty():
         if difficulty == 'EASY':
             monsterCount = easy
             difficulty = easy
+            edge = easy
             buildMap(difficulty)
             break
 
         elif difficulty == 'NORMAL':
             difficulty = normal
             monsterCount = normal
+            edge = normal
             buildMap(difficulty)
 
         elif difficulty == 'HARD':
             difficulty = hard
+            monsterCount = hard
+            edge = hard
             buildMap(difficulty)
 
         elif difficulty == 'VERY HARD':
             difficulty = veryHard
+            monsterCount = veryHard
             buildMap(difficulty)
 
         elif difficulty == 'INTENSE':
             difficulty = intense
+            monsterCount = intense
             buildMap(difficulty)
 
         else:
