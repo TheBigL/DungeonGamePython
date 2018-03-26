@@ -17,71 +17,67 @@ def setDifficulty():
     veryHard = 16
     intense = 20
     monsterCount = 0
-    monsters = []
-    dungeonMAP = []
     edge = 0
+    doorCount = 0
 
     
 
     while True:
         print("Select your difficulty")
         print("Type EASY, NORMAL, HARD, VERY HARD or INTENSE")
+        print("..or you can type QUIT or EXIT to leave the game")
         try:
-            difficulty = input(">").upper()
-            if difficulty == 'EASY':
+            level = input(">").upper()
+            if level == 'EASY':
                 difficulty = easy
                 monsterCount = difficulty
                 edge = difficulty
                 doorCount = 5
-                level = 'easy'
-                dungeonMAP = buildMap(difficulty)
                 break
 
-            elif difficulty == 'NORMAL':
+            elif level == 'NORMAL':
                 difficulty = normal
                 monsterCount = normal
-                edge = normal
-                dungeonMAP = buildMap(difficulty)
+                edge = difficulty
                 doorCount = 4
                 break
 
 
-            elif difficulty == 'HARD':
+            elif level == 'HARD':
                 difficulty = hard
-                monsterCount = hard
-                edge = hard
-                dungeonMAP = buildMap(difficulty)
+                monsterCount = difficulty
+                edge = difficulty
                 doorCount = 3
-                level = 'hard'
                 break
 
 
-            elif difficulty == 'VERY HARD':
+            elif level == 'VERY HARD':
                 difficulty = veryHard
                 monsterCount = veryHard
-                dungeonMAP = buildMap(difficulty)
                 doorCount = 2
-                level = 'very hard'
+                edge = veryHard
                 break
 
 
-            elif difficulty == 'INTENSE':
+            elif level == 'INTENSE':
                 difficulty = intense
                 monsterCount = intense
-                dungeonMAP = buildMap(difficulty)
                 doorCount = 1
-                level = 'intense'
+                edge = intense
                 break
+            elif level == 'QUIT' or level == 'EXIT':
+                print('Goodbye for now...')
+                break
+                exit()
+                
+
             else:
                 print("Not a valid response!")
-            return difficulty, monsterCount, edge, level    
+    
                 
         except:
             print("Didn't catch that...")
-            print("Please pick the following difficulties")
-            print("Select your difficulty")
-            print("Type EASY, NORMAL, HARD, VERY HARD or INTENSE")
-            input("\n>")
+    return monsterCount, doorCount, edge        
         
 
 
@@ -90,7 +86,7 @@ def setDifficulty():
              
 
 
-def generateLocations(monsterCount, dungeonMAP, monsters, doors):
+def generateLocations(dungeonMAP, monsters, doors):
     locations = {}
     monsters = []
     
@@ -98,29 +94,16 @@ def generateLocations(monsterCount, dungeonMAP, monsters, doors):
 
         player = random.choice(dungeonMAP)
 
-        for monster in monsterCount:
+        for monster in monsters:
             monster = random.choice(dungeonMAP)
             monsters.append(monster)
             for door in doors:
                 door = random.choice(dungeonMAP)
                 doors.append(door)
 
-                if monster not in player:
-                    continue
-                elif monster not in door:
-                    continue    
-                elif door not in player:
-                    continue
-
-
-        
-            
-        
-
-        
-        if door not in player and monsters not in door and monsters not in player:
-         break
-    return monsters, player, door                
+                if not (monster == player and monster == door and player == door):
+                    break
+    return monsters, player, doors                
 
 def draw_map(player, currentRoom, monsters, doorCount):
     print(" _" * edge)
@@ -153,9 +136,23 @@ def exit():
 monsterCount = 0
 edge = 0
 dungeonMAP = []
+doors = []
+monsters = []
+doorCount = 0
 print("Welcome to the Dungeon Game")
 input("Press ENTER to play the game!")
-setDifficulty()
+
+monsterCount, doorCount, edge = setDifficulty()
+dungeonMAP = buildMap(monsterCount)
+
+for i in range(0, monsterCount):
+    monsters.append(random.choice(dungeonMAP))
+
+for i in range(0, doorCount):
+    doors.append(random.choice(dungeonMAP))    
+
+
+startPositions = generateLocations(monsterCount, dungeonMAP, monsters, doors)
 
 
 
