@@ -86,23 +86,22 @@ def setDifficulty():
              
 
 
-def generateLocations(dungeonMAP, monsters, doors):
-    locations = {}
-    monsters = []
-    
+def generateLocations(monsterCount, doorCount, dungeonMAP, monsters, doors):
+ 
     while True:
 
         player = random.choice(dungeonMAP)
 
-        for monster in monsters:
+            #Creating and Generating the Monsters and Doors
+        while len(monsters) < monsterCount:
             monster = random.choice(dungeonMAP)
             monsters.append(monster)
-            for door in doors:
-                door = random.choice(dungeonMAP)
-                doors.append(door)
 
-                if not (monster == player and monster == door and player == door):
-                    break
+        while len(doors) < doorCount:
+            door = random.choice(dungeonMAP)
+            doors.append(door)
+        if not (monster == player and monster == door and player == door):
+            break
     return monsters, player, doors                
 
 def draw_map(player, currentRoom, monsters, doorCount):
@@ -144,15 +143,7 @@ input("Press ENTER to play the game!")
 
 monsterCount, doorCount, edge = setDifficulty()
 dungeonMAP = buildMap(monsterCount)
-
-for i in range(0, monsterCount):
-    monsters.append(random.choice(dungeonMAP))
-
-for i in range(0, doorCount):
-    doors.append(random.choice(dungeonMAP))    
-
-
-startPositions = generateLocations(monsterCount, dungeonMAP, monsters, doors)
+startPositions = generateLocations(monsterCount, doorCount, dungeonMAP, monsters, doors)
 
 
 
